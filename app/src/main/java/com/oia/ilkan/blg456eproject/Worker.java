@@ -39,16 +39,7 @@ public class Worker implements Handler.Callback {
     public boolean handleMessage(Message msg) {
         Data data = (Data) msg.obj;
         if (data != null){
-            byte[] bytes = new byte[16];
-            ByteBuffer.wrap(bytes).putDouble(data.angle);
-            ByteBuffer.wrap(bytes).putDouble(data.power);
-            try {
-                out.write(bytes);
-                out.flush();
-                Log.d("O.K.", data.angle + " " + data.power);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
         }
         return true;
     }

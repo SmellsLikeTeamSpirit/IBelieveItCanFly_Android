@@ -2,6 +2,10 @@ package com.oia.ilkan.blg456eproject;
 
 public class Data {
 
+    public Data() {
+
+    }
+
     public Data(double angle, double power) {
         this.angle = angle;
         this.power = power;
