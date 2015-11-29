@@ -1,6 +1,11 @@
 package com.oia.ilkan.blg456eproject;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -9,14 +14,14 @@ import com.erz.joysticklibrary.JoyStick;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 
-public class ControlActivity extends AppCompatActivity implements JoyStick.JoyStickListener{
+public class ControlActivity extends AppCompatActivity implements JoyStick.JoyStickListener {
     JoyStick joyStick1, joyStick2;
     int port;
     String ip;
-    SenderThread sender;
-    Double currentAngle = 0.0, currentPower = 0.0;
+    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +33,14 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
         joyStick1 = (JoyStick) findViewById(R.id.joy1);
         joyStick2 = (JoyStick) findViewById(R.id.joy2);
 
-        sender = new SenderThread();
-        sender.start();
+        HandlerThread handlerThread = new HandlerThread("myHandlerThread");
+        handlerThread.start();
+        Looper looper = handlerThread.getLooper();
+        // Create an instance of the class that will handle the messages that are posted
+        //  to the Handler
+        Worker worker = new Worker(ip, port);
+        // Create a Handler and give it the worker instance to handle the messages
+        handler = new Handler(looper, worker);
 
         joyStick1.setListener(this);
         //Set JoyStickListener
@@ -39,80 +50,23 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
     @Override
     protected void onStop() {
         super.onStop();
-        if(sender.isAlive()) {
-            try {
-                sender.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+
     }
 
     @Override
     public void onMove(JoyStick joyStick, double angle, double power) {
-        double angleToSend = 0;
-        if(angle >= - Math.PI/2 && angle <= Math.PI) {
-            angleToSend = Math.PI/2 - angle;
+        double angleToSend;
+        if (angle >= -Math.PI / 2 && angle <= Math.PI) {
+            angleToSend = Math.PI / 2 - angle;
             //joyStick.setButtonColor(Color.parseColor("#FFCC00"));
         } else {
-            angleToSend = -((3*Math.PI)/2) - angle;
+            angleToSend = -((3 * Math.PI) / 2) - angle;
             //joyStick.setButtonColor(Color.parseColor("#696969"));
         }
-
-
-        synchronized (currentAngle) {
-            synchronized (currentPower) {
-                currentAngle = angleToSend;
-                currentPower = power;
-                sender.notify();
-            }
-        }
-
+        Message msg = new Message();
+        msg.obj = new Data(angleToSend, power);
+        handler.sendMessage(msg);
         Log.d("Joystick On Move", "Power : " + power + " Angle : " + angle + " Angle To Send : " + angleToSend);
-    }
-
-    class SenderThread extends Thread {
-
-        private Socket hostThreadSocket;
-        private OutputStream out;
-        private boolean isPortCreated;
-        public SenderThread() {
-            isPortCreated = false;
-        }
-
-        @Override
-        public void run() {
-            super.run();
-            if(!isPortCreated) {
-                try {
-                    hostThreadSocket = new Socket(ip, port);
-                    isPortCreated = true;
-                } catch (IOException e) {
-                    System.err.println(e);
-                }
-            }
-            try {
-                out = hostThreadSocket.getOutputStream();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            byte[] bytes = new byte[16];
-
-            synchronized (currentAngle) {
-                synchronized (currentPower) {
-                    if(currentPower != null && currentAngle != null) {
-                        ByteBuffer.wrap(bytes).putDouble(currentAngle);
-                        ByteBuffer.wrap(bytes).putDouble(currentPower);
-                        try {
-                            out.write(bytes);
-                            out.flush();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        }
     }
 }
 
