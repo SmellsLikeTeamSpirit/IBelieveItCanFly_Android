@@ -6,11 +6,12 @@ public class Data {
 
     }
 
-    public Data(double angle, double power) {
+    public Data(double angle, double power, int joystick) {
         this.angle = angle;
         this.power = power;
     }
 
     public double angle;
     public double power;
+    public int joystick;
 }

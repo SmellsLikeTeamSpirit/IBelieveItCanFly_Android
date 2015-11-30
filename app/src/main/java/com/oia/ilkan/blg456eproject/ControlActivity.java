@@ -12,8 +12,10 @@ import android.util.Log;
 import com.erz.joysticklibrary.JoyStick;
 
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
@@ -63,14 +65,13 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
         double angleToSend;
         if (angle >= -Math.PI / 2 && angle <= Math.PI) {
             angleToSend = Math.PI / 2 - angle;
-            //joyStick.setButtonColor(Color.parseColor("#FFCC00"));
         } else {
             angleToSend = -((3 * Math.PI) / 2) - angle;
-            //joyStick.setButtonColor(Color.parseColor("#696969"));
         }
         synchronized (lock) {
             data.angle = angleToSend;
             data.power = power;
+            data.joystick = joyStick == joyStick1 ? 1 : 2;
             lock.notify();
         }
         Log.d("Joystick On Move", "Power : " + power + " Angle : " + angle + " Angle To Send : " + angleToSend);
@@ -78,7 +79,7 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
 
     class MyThread extends Thread {
         Socket socket;
-        OutputStream out;
+        DataOutputStream out;
         public MyThread() {
 
         }
@@ -89,7 +90,7 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
             try {
                 this.socket = new Socket(ip, port);
                 Log.d("socket","created");
-                out = socket.getOutputStream();
+                out = new DataOutputStream(socket.getOutputStream());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -101,14 +102,11 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    Log.d("run2","worked");
-                    byte[] bytes = new byte[16];
-                    ByteBuffer.wrap(bytes).putDouble(data.angle);
-                    ByteBuffer.wrap(bytes).putDouble(data.power);
                     try {
-                        out.write(bytes);
+                        out.writeDouble(data.power);
+                        out.writeDouble(data.angle);
+                        out.writeInt(data.joystick);
                         out.flush();
-                        Log.d("O.K.", data.angle + " " + data.power);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
