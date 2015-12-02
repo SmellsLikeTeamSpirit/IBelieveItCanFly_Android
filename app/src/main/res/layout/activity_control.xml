@@ -15,14 +15,14 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Angle"
+            android:text="Wandering"
             android:textColor="@android:color/black"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Power"
+            android:text="Rise/Fall and Turn Around"
             android:textColor="@android:color/black"/>
     </LinearLayout>
     <LinearLayout

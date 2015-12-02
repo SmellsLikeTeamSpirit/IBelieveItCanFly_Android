@@ -30,13 +30,6 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 Socket socket;
-                /*if(ip.getText().toString().equals(""))
-                    return;
-                try {
-                    socket = new Socket(ip.getText().toString(),port);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
                 Bundle args = new Bundle();
                 args.putString("ip", ip.getText().toString());
                 args.putInt("port",port);
