@@ -1,32 +1,22 @@
 package com.oia.ilkan.blg456eproject;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
 import com.erz.joysticklibrary.JoyStick;
-
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
 
 public class ControlActivity extends AppCompatActivity implements JoyStick.JoyStickListener {
     JoyStick joyStick1, joyStick2;
     int port;
     String ip;
     Data data;
-    MyThread thread;
+    NetworkThread thread;
     Object lock = new Object();
+    Socket socket;
+    DataOutputStream out;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +30,7 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
         joyStick2 = (JoyStick) findViewById(R.id.joy2);
         data = new Data();
 
-        thread = new MyThread();
+        thread = new NetworkThread();
         thread.start();
 
         //Set JoyStickListener
@@ -71,16 +61,15 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
         synchronized (lock) {
             data.angle = angleToSend;
             data.power = power;
-            data.joystick = joyStick == joyStick1 ? 1 : 2;
+            data.joystick = joyStick == joyStick1 ? (byte)0x01 : (byte)0x02;
             lock.notify();
         }
         Log.d("Joystick On Move", "Power : " + power + " Angle : " + angle + " Angle To Send : " + angleToSend);
     }
 
-    class MyThread extends Thread {
-        Socket socket;
-        DataOutputStream out;
-        public MyThread() {
+    class NetworkThread extends Thread {
+
+        public NetworkThread() {
 
         }
 
@@ -88,7 +77,7 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
         public void run() {
             Log.d("run","worked");
             try {
-                this.socket = new Socket(ip, port);
+                socket = new Socket(ip, port);
                 Log.d("socket","created");
                 out = new DataOutputStream(socket.getOutputStream());
             } catch (IOException e) {
@@ -103,10 +92,12 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
                         e.printStackTrace();
                     }
                     try {
-                        out.writeDouble(data.power);
-                        out.writeDouble(data.angle);
-                        out.writeInt(data.joystick);
-                        out.flush();
+                        if(out != null) {
+                            out.writeByte(data.joystick);
+                            out.writeDouble(data.angle);
+                            out.writeDouble(data.power);
+                            out.flush();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

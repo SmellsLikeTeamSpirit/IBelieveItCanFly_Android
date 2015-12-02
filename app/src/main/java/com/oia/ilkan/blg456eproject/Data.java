@@ -13,5 +13,5 @@ public class Data {
 
     public double angle;
     public double power;
-    public int joystick;
+    public byte joystick;
 }
