@@ -6,6 +6,8 @@ import android.util.Log;
 import com.erz.joysticklibrary.JoyStick;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class ControlActivity extends AppCompatActivity implements JoyStick.JoyStickListener {
@@ -36,6 +38,11 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
         //Set JoyStickListener
         joyStick1.setListener(this);
         joyStick2.setListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override
@@ -75,33 +82,37 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
 
         @Override
         public void run() {
-            Log.d("run","worked");
+            Log.d("NetworkThread","Started");
             try {
-                socket = new Socket(ip, port);
-                Log.d("socket","created");
+                socket = new Socket();
+                socket.connect(new InetSocketAddress(InetAddress.getByName(ip), port), 30);
+                Log.d("Socket","Connected");
                 out = new DataOutputStream(socket.getOutputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
-            while(true) {
-                synchronized (lock) {
-                    try {
-                        lock.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        if(out != null) {
-                            out.writeByte(data.joystick);
-                            out.writeDouble(data.angle);
-                            out.writeDouble(data.power);
-                            out.flush();
+
+                while(true) {
+                    synchronized (lock) {
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        try {
+                            if(out != null) {
+                                out.writeByte(data.joystick);
+                                out.writeDouble(data.angle);
+                                out.writeDouble(data.power);
+                                out.flush();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
+
+
+            } catch (IOException e) {
+                Log.d("Socket", "Can't connect");
             }
         }
     }

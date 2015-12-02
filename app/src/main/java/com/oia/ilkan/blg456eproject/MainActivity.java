@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity  {
                 Bundle args = new Bundle();
                 args.putString("ip", ip.getText().toString());
                 args.putInt("port",port);
-                Intent intent = new Intent(MainActivity.this,SplashActivity.class);
+                Intent intent = new Intent(MainActivity.this,ControlActivity.class);
                 intent.putExtras(args);
                 startActivity(intent);
                 finish();

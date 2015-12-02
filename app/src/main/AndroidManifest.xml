@@ -24,8 +24,6 @@
             android:name=".ControlActivity"
             android:screenOrientation="sensorLandscape" >
         </activity>
-        <activity android:name=".SplashActivity" >
-        </activity>
     </application>
 
 </manifest>
