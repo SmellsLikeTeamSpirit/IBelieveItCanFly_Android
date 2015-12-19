@@ -77,7 +77,7 @@ public class HandlerService extends Service {
                 socket = new Socket(ip, port);
                 if (socket.isConnected()) {
                     if(ControlActivity.handler != null)
-                        ControlActivity.handler.sendMessage(null);
+                        ControlActivity.handler.sendMessage(new Message());
                     Log.d("Socket", "Connected");
                     out = new DataOutputStream(socket.getOutputStream());
                     while (!socket.isClosed()) {

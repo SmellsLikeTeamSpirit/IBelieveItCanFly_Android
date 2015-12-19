@@ -12,19 +12,22 @@
         android:orientation="horizontal">
         <EditText
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="30dp"
+            android:layout_height="45dp"
+            android:layout_margin="15dp"
             android:inputType="numberSigned"
-            android:id="@+id/edit1"
-            android:layout_weight="5"/>
-        <Button
+            android:id="@+id/editDistance"
+            android:hint="Distance(m)"
+            android:layout_weight="5"
+            android:gravity="center_horizontal" />
+        <EditText
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:background="#FFCC00"
-            android:layout_margin="30dp"
-            android:id="@+id/button1"
-            android:text="DÜZ GİT"/>
+            android:layout_height="45dp"
+            android:layout_margin="15dp"
+            android:inputType="numberSigned"
+            android:id="@+id/editAngle"
+            android:hint="Angle(deg)"
+            android:layout_weight="5"
+            android:gravity="center_horizontal" />
     </LinearLayout>
 
     <LinearLayout
@@ -32,63 +35,44 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="30dp"
-            android:id="@+id/edit2"
-            android:inputType="numberSigned"
-            android:layout_weight="5"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:background="#FFCC00"
-            android:layout_margin="30dp"
-            android:id="@+id/button2"
-            android:text="DÜZ GİT"/>
+            android:layout_margin="15dp"
+            android:id="@+id/btnDistance"
+            android:text="GO STRAIGHT AHEAD"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="#FFCC00"
+            android:layout_margin="15dp"
+            android:id="@+id/btnTurn"
+            android:text="TURN AROUND"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="30dp"
-            android:inputType="numberSigned"
-            android:id="@+id/edit3"
-            android:layout_weight="5"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:background="#FFCC00"
-            android:layout_margin="30dp"
-            android:id="@+id/button3"
-            android:text="DÜZ GİT"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="30dp"
-            android:id="@+id/edit4"
-            android:inputType="numberSigned"
-            android:layout_weight="5"/>
+            android:layout_margin="15dp"
+            android:id="@+id/btnFixedAngle"
+            android:text="MOVE WITH FIXED ANGLE"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:background="#FFCC00"
-            android:layout_margin="30dp"
-            android:id="@+id/button4"
-            android:text="DÜZ GİT"/>
+            android:layout_margin="15dp"
+            android:id="@+id/btnObst"
+            android:text="Go Until Obstacle"/>
     </LinearLayout>
 
 </LinearLayout>

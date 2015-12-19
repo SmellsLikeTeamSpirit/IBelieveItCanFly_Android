@@ -2,83 +2,64 @@ package com.edu.itu.smellsliketeamspirit;
 
 import android.os.Bundle;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.edu.itu.smellsliketeamspirit.R;
-
 public class BehaviorsActivity extends AppCompatActivity {
-    Button button1, button2, button3, button4;
-    EditText edit1, edit2, edit3, edit4;
-    Data data;
+    Button btnDistance, btnObst, btnTurn, btnFixedAngle;
+    EditText editDistance, editAngle;
+
+    private void sendDataToService(byte joystick, Double power, Double angle)
+    {
+        if (HandlerService.mServiceHandler != null && power != null &&  angle != null) {
+            Message msg = new Message();
+            msg.obj = new Data(joystick,power, angle);
+            HandlerService.mServiceHandler.sendMessage(msg);
+        }
+        else {
+            Log.d("BEHAVIOR", "Göndermedim abi");
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        data = new Data();
         setContentView(R.layout.activity_behaviors);
-        button1 = (Button) findViewById(R.id.button1);
-        button2 = (Button) findViewById(R.id.button2);
-        button3 = (Button) findViewById(R.id.button3);
-        button4 = (Button) findViewById(R.id.button4);
-        edit1 = (EditText) findViewById(R.id.edit1);
-        edit2 = (EditText) findViewById(R.id.edit2);
-        edit3 = (EditText) findViewById(R.id.edit3);
-        edit4 = (EditText) findViewById(R.id.edit4);
+        btnDistance = (Button) findViewById(R.id.btnDistance);
+        btnObst = (Button) findViewById(R.id.btnObst);
+        btnTurn = (Button) findViewById(R.id.btnTurn);
+        btnFixedAngle = (Button) findViewById(R.id.btnFixedAngle);
+        editDistance = (EditText) findViewById(R.id.editDistance);
+        editAngle = (EditText) findViewById(R.id.editAngle);
 
-        button1.setOnClickListener(new View.OnClickListener() {
+        btnDistance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                data.power = Double.parseDouble(edit1.getText().toString());
-                data.joystick = (byte) 0x03;
-                if(HandlerService.mServiceHandler != null) {
-                    Message msg = new Message();
-                    msg.obj = data;
-                    HandlerService.mServiceHandler.sendMessage(msg);
-                }
+                sendDataToService((byte) 0x03, Double.parseDouble(editDistance.getText().toString()), 0.0);
             }
         });
 
-        button2.setOnClickListener(new View.OnClickListener() {
+        btnObst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                data.power = Double.parseDouble(edit2.getText().toString());
-                data.joystick = (byte) 0x03;
-                if(HandlerService.mServiceHandler != null) {
-                    Message msg = new Message();
-                    msg.obj = data;
-                    HandlerService.mServiceHandler.sendMessage(msg);
-                }
+                sendDataToService((byte) 0x04, 0.0, 0.0);
             }
         });
 
-        button3.setOnClickListener(new View.OnClickListener() {
+        btnTurn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                data.power = Double.parseDouble(edit3.getText().toString());
-                data.joystick = (byte) 0x03;
-                if(HandlerService.mServiceHandler != null) {
-                    Message msg = new Message();
-                    msg.obj = data;
-                    HandlerService.mServiceHandler.sendMessage(msg);
-                }
+                sendDataToService((byte) 0x05, 0.0, Double.parseDouble(editAngle.getText().toString()));
             }
         });
 
-        button4.setOnClickListener(new View.OnClickListener() {
+        btnFixedAngle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                data.power = Double.parseDouble(edit4.getText().toString());
-                data.joystick = (byte) 0x03;
-                if(HandlerService.mServiceHandler != null) {
-                    Message msg = new Message();
-                    msg.obj = data;
-                    HandlerService.mServiceHandler.sendMessage(msg);
-                }
+                sendDataToService((byte) 0x06, Double.parseDouble(editDistance.getText().toString()), Double.parseDouble(editAngle.getText().toString()));
             }
         });
 

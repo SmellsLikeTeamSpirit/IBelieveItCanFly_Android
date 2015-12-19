@@ -21,13 +21,7 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                if(progressDialog.isShowing())
-                    progressDialog.dismiss();
-            }
-        };
+
         joyStick1 = (JoyStick) findViewById(R.id.joy1);
         joyStick2 = (JoyStick) findViewById(R.id.joy2);
         behaviorsButton = (Button) findViewById(R.id.behaviorsButton);
@@ -43,6 +37,14 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
                 startActivity(new Intent(ControlActivity.this, BehaviorsActivity.class));
             }
         });
+
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if(progressDialog.isShowing())
+                    progressDialog.dismiss();
+            }
+        };
     }
 
     @Override
