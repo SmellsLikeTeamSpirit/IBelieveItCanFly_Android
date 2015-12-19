@@ -45,19 +45,12 @@ public class BehaviorsActivity extends AppCompatActivity {
             }
         });
 
-        btnObst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendDataToService((byte) 0x04, 0.0, 0.0);
-            }
-        });
-
         btnTurn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Double ang = editAngle.getText().length() > 0 ? Double.parseDouble(editAngle.getText().toString()) : null;
                 if(ang != null)
-                    sendDataToService((byte) 0x05, 0.0, ang);
+                    sendDataToService((byte) 0x04, 0.0, ang);
             }
         });
 
@@ -67,7 +60,14 @@ public class BehaviorsActivity extends AppCompatActivity {
                 Double ang = editAngle.getText().length() > 0 ? Double.parseDouble(editAngle.getText().toString()) : null;
                 Double pow = editDistance.getText().length() > 0 ? Double.parseDouble(editDistance.getText().toString()) : null;
                 if(ang != null && pow != null)
-                    sendDataToService((byte) 0x06, pow, ang);
+                    sendDataToService((byte) 0x05, pow, ang);
+            }
+        });
+
+        btnObst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendDataToService((byte) 0x06, 0.0, 0.0);
             }
         });
 
