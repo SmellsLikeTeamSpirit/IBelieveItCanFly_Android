@@ -15,8 +15,7 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
     JoyStick joyStick1, joyStick2;
     Data data;
     Button behaviorsButton;
-    public static Handler handler;
-    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +37,7 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
             }
         });
 
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                if(progressDialog.isShowing())
-                    progressDialog.dismiss();
-            }
-        };
+
     }
 
     @Override

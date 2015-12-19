@@ -43,7 +43,8 @@ public class HandlerService extends Service {
     public void onDestroy() {
         super.onDestroy();
         try {
-            socket.close();
+            if(socket != null && socket.isConnected())
+                socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,8 +77,11 @@ public class HandlerService extends Service {
             try {
                 socket = new Socket(ip, port);
                 if (socket.isConnected()) {
-                    if(ControlActivity.handler != null)
-                        ControlActivity.handler.sendMessage(new Message());
+                    if(MainActivity.handler != null) {
+                        Message stat = new Message();
+                        stat.obj = new Boolean(true);
+                        MainActivity.handler.sendMessage(stat);
+                    }
                     Log.d("Socket", "Connected");
                     out = new DataOutputStream(socket.getOutputStream());
                     while (!socket.isClosed()) {
@@ -103,6 +107,11 @@ public class HandlerService extends Service {
 
             } catch (IOException e) {
                 Log.d("Socket", "Can't connect");
+                if(MainActivity.handler != null) {
+                    Message stat = new Message();
+                    stat.obj = new Boolean(false);
+                    MainActivity.handler.sendMessage(stat);
+                }
             }
         }
     }

@@ -3,6 +3,7 @@ package com.edu.itu.smellsliketeamspirit;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -38,7 +39,9 @@ public class BehaviorsActivity extends AppCompatActivity {
         btnDistance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendDataToService((byte) 0x03, Double.parseDouble(editDistance.getText().toString()), 0.0);
+                Double pow = editDistance.getText().length() > 0 ? Double.parseDouble(editDistance.getText().toString()) : null;
+                if(pow != null)
+                    sendDataToService((byte) 0x03, pow, 0.0);
             }
         });
 
@@ -52,14 +55,19 @@ public class BehaviorsActivity extends AppCompatActivity {
         btnTurn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendDataToService((byte) 0x05, 0.0, Double.parseDouble(editAngle.getText().toString()));
+                Double ang = editAngle.getText().length() > 0 ? Double.parseDouble(editAngle.getText().toString()) : null;
+                if(ang != null)
+                    sendDataToService((byte) 0x05, 0.0, ang);
             }
         });
 
         btnFixedAngle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendDataToService((byte) 0x06, Double.parseDouble(editDistance.getText().toString()), Double.parseDouble(editAngle.getText().toString()));
+                Double ang = editAngle.getText().length() > 0 ? Double.parseDouble(editAngle.getText().toString()) : null;
+                Double pow = editDistance.getText().length() > 0 ? Double.parseDouble(editDistance.getText().toString()) : null;
+                if(ang != null && pow != null)
+                    sendDataToService((byte) 0x06, pow, ang);
             }
         });
 

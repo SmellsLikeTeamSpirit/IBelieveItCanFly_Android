@@ -11,7 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:id="@+id/focusHere">
         <EditText
             android:layout_width="0dp"
             android:layout_weight="1.5"
@@ -31,7 +34,5 @@
             android:text="Connect"
             android:id="@+id/connectButton"/>
     </LinearLayout>
-
-
 
 </LinearLayout>
