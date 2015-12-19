@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.oia.ilkan.blg456eproject" >
+    package="com.edu.itu.smellsliketeamspirit" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -24,6 +24,22 @@
             android:name=".ControlActivity"
             android:screenOrientation="sensorLandscape" >
         </activity>
+        <activity
+            android:name=".BehaviorsActivity"
+            android:label="@string/title_activity_behaviors"
+            android:parentActivityName=".ControlActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.edu.itu.smellsliketeamspirit.ControlActivity" />
+        </activity>
+
+        <service
+            android:name=".HandlerService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

@@ -1,17 +1,12 @@
-package com.oia.ilkan.blg456eproject;
+package com.edu.itu.smellsliketeamspirit;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.erz.joysticklibrary.JoyStick;
-
-import java.io.IOException;
 import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity  {

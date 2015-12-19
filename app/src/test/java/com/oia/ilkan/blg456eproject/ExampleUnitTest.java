@@ -1,4 +1,4 @@
-package com.oia.ilkan.blg456eproject;
+package com.oia.ilkan.oia;
 
 import org.junit.Test;
 

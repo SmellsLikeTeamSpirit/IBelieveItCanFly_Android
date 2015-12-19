@@ -1,4 +1,4 @@
-package com.oia.ilkan.blg456eproject;
+package com.edu.itu.smellsliketeamspirit;
 
 public class Data {
 

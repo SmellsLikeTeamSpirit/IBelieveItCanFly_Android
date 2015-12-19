@@ -1,4 +1,4 @@
-package com.oia.ilkan.blg456eproject;
+package com.edu.itu.smellsliketeamspirit;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

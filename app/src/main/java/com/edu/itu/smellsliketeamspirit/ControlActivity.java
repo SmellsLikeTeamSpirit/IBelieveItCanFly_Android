@@ -1,18 +1,16 @@
-package com.oia.ilkan.blg456eproject;
+package com.edu.itu.smellsliketeamspirit;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.Button;
 
 import com.erz.joysticklibrary.JoyStick;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class ControlActivity extends AppCompatActivity implements JoyStick.JoyStickListener {
@@ -25,6 +23,7 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
     Socket socket;
     DataOutputStream out;
     ProgressDialog dialog;
+    Button behaviorsButton;
     boolean paused = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +36,8 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
 
         joyStick1 = (JoyStick) findViewById(R.id.joy1);
         joyStick2 = (JoyStick) findViewById(R.id.joy2);
+        behaviorsButton = (Button) findViewById(R.id.behaviorsButton);
+
         dialog = new ProgressDialog(ControlActivity.this);
         dialog.setTitle("Connecting");
         dialog.setMessage("Please Wait");
@@ -49,6 +50,13 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
         //Set JoyStickListener
         joyStick1.setListener(this);
         joyStick2.setListener(this);
+
+        behaviorsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ControlActivity.this,BehaviorsActivity.class));
+            }
+        });
     }
 
     @Override
@@ -68,10 +76,6 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
     @Override
     protected void onResume() {
         super.onResume();
-        /*dialog.show();
-        paused = false;
-        thread = new NetworkThread();
-        thread.start();*/
     }
 
     @Override
