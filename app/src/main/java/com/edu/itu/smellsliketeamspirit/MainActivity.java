@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity  {
                         finish();
                     }
                     else {
-                        timeout.removeCallbacks(timeoutRunner);
                         if(serviceIntent != null)
                             stopService(serviceIntent);
                         progressDialog.dismiss();
