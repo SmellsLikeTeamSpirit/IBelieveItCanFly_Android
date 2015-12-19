@@ -20,17 +20,18 @@ public class MainActivity extends AppCompatActivity  {
         ip = (EditText) findViewById(R.id.ip_address);
         connect = (Button) findViewById(R.id.connectButton);
 
-
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Socket socket;
                 Bundle args = new Bundle();
                 args.putString("ip", ip.getText().toString());
-                args.putInt("port",port);
+                args.putInt("port", port);
                 Intent intent = new Intent(MainActivity.this,ControlActivity.class);
-                intent.putExtras(args);
+
                 startActivity(intent);
+                Intent serviceIntent = new Intent(MainActivity.this,HandlerService.class);
+                serviceIntent.putExtras(args);
+                startService(serviceIntent);
                 finish();
             }
         });
