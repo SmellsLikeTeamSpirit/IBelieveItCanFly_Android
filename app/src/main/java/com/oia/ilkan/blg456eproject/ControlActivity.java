@@ -54,7 +54,7 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
     @Override
     protected void onPause() {
         super.onPause();
-        synchronized (lock) {
+        /*synchronized (lock) {
             paused = true;
             lock.notify();
         }
@@ -62,16 +62,16 @@ public class ControlActivity extends AppCompatActivity implements JoyStick.JoySt
             thread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        dialog.show();
+        /*dialog.show();
         paused = false;
         thread = new NetworkThread();
-        thread.start();
+        thread.start();*/
     }
 
     @Override
