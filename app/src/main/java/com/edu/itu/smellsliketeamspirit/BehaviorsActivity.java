@@ -3,14 +3,13 @@ package com.edu.itu.smellsliketeamspirit;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class BehaviorsActivity extends AppCompatActivity {
-    Button btnDistance, btnObst, btnTurn, btnFixedAngle;
+    Button btnDistance, btnObst, btnTurn, btnUp;
     EditText editDistance, editAngle;
 
     private void sendDataToService(byte joystick, Double power, Double angle)
@@ -32,7 +31,7 @@ public class BehaviorsActivity extends AppCompatActivity {
         btnDistance = (Button) findViewById(R.id.btnDistance);
         btnObst = (Button) findViewById(R.id.btnObst);
         btnTurn = (Button) findViewById(R.id.btnTurn);
-        btnFixedAngle = (Button) findViewById(R.id.btnFixedAngle);
+        btnUp = (Button) findViewById(R.id.btnUp);
         editDistance = (EditText) findViewById(R.id.editDistance);
         editAngle = (EditText) findViewById(R.id.editAngle);
 
@@ -54,13 +53,12 @@ public class BehaviorsActivity extends AppCompatActivity {
             }
         });
 
-        btnFixedAngle.setOnClickListener(new View.OnClickListener() {
+        btnUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Double ang = editAngle.getText().length() > 0 ? Double.parseDouble(editAngle.getText().toString()) : null;
                 Double pow = editDistance.getText().length() > 0 ? Double.parseDouble(editDistance.getText().toString()) : null;
-                if(ang != null && pow != null)
-                    sendDataToService((byte) 0x05, pow, ang);
+                if(pow != null)
+                    sendDataToService((byte) 0x05, pow, 0.0);
             }
         });
 

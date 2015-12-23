@@ -63,8 +63,8 @@
             android:layout_weight="2"
             android:background="#FFCC00"
             android:layout_margin="15dp"
-            android:id="@+id/btnFixedAngle"
-            android:text="MOVE WITH FIXED ANGLE"/>
+            android:id="@+id/btnUp"
+            android:text="GO UP"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
