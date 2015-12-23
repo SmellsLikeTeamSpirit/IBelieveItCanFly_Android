@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class BehaviorsActivity extends AppCompatActivity {
-    Button btnDistance, btnObst, btnTurn, btnUp;
+    Button btnDistance, btnObst, btnTurn, btnUp, btnBigRed;
     EditText editDistance, editAngle;
 
     private void sendDataToService(byte joystick, Double power, Double angle)
@@ -32,6 +32,7 @@ public class BehaviorsActivity extends AppCompatActivity {
         btnObst = (Button) findViewById(R.id.btnObst);
         btnTurn = (Button) findViewById(R.id.btnTurn);
         btnUp = (Button) findViewById(R.id.btnUp);
+        btnBigRed = (Button) findViewById(R.id.btnBigRed);
         editDistance = (EditText) findViewById(R.id.editDistance);
         editAngle = (EditText) findViewById(R.id.editAngle);
 
@@ -66,6 +67,13 @@ public class BehaviorsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sendDataToService((byte) 0x06, 0.0, 0.0);
+            }
+        });
+
+        btnBigRed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendDataToService((byte) 0x00, 0.0, 0.0);
             }
         });
 
